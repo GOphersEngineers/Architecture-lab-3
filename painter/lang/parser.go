@@ -8,9 +8,8 @@ import (
 	"strings"
 
 	"github.com/roman-mazur/architecture-lab-3/painter"
+	"golang.org/x/exp/shiny/screen"
 )
-
-// Parser уміє прочитати дані з вхідного io.Reader та повернути список операцій представлені вхідним скриптом
 
 type Parser struct {
 	Background painter.Operation
@@ -48,29 +47,29 @@ func (cp *Parser) parseLine(line string) error {
 
 	switch command {
 	case "white":
-		cp.Background = painter.OperationFunc(painter.WhiteFill)
+		cp.setBackground(painter.WhiteFill)
 	case "green":
-		cp.Background = painter.OperationFunc(painter.GreenFill)
+		cp.setBackground(painter.GreenFill)
 	case "bgrect":
 		if len(args) != 4 {
 			return fmt.Errorf("invalid number of arguments for bgrect: %s", line)
 		}
-		cp.Rectangle = &painter.BgRect{X1: args[0], Y1: args[1], X2: args[2], Y2: args[3]}
+		cp.setRectangle(args)
 	case "figure":
 		if len(args) != 2 {
 			return fmt.Errorf("invalid number of arguments for figure: %s", line)
 		}
-		cp.Figures = append(cp.Figures, &painter.TFigure{X: args[0], Y: args[1]})
+		cp.addFigure(args)
 	case "move":
 		if len(args) != 2 {
 			return fmt.Errorf("invalid number of arguments for move: %s", line)
 		}
-		cp.Movements = append(cp.Movements, &painter.MoveFigures{X: args[0], Y: args[1], Figures: cp.Figures})
+		cp.addMovement(args)
 	case "reset":
 		cp.resetState()
-		cp.Background = painter.OperationFunc(painter.Reset)
+		cp.setBackground(painter.Reset)
 	case "update":
-		cp.Update = painter.UpdateOp
+		cp.setUpdate(painter.UpdateOp)
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
@@ -110,7 +109,7 @@ func (cp *Parser) getFinalResult() []painter.Operation {
 
 func (cp *Parser) initialize() {
 	if cp.Background == nil {
-		cp.Background = painter.OperationFunc(painter.Reset)
+		cp.setBackground(painter.Reset)
 	}
 	cp.Update = nil
 }
@@ -120,4 +119,24 @@ func (cp *Parser) resetState() {
 	cp.Figures = nil
 	cp.Movements = nil
 	cp.Update = nil
+}
+
+func (cp *Parser) setBackground(opFunc func(screen.Texture)) {
+	cp.Background = painter.OperationFunc(opFunc)
+}
+
+func (cp *Parser) setRectangle(args []int) {
+	cp.Rectangle = &painter.BgRect{X1: args[0], Y1: args[1], X2: args[2], Y2: args[3]}
+}
+
+func (cp *Parser) addFigure(args []int) {
+	cp.Figures = append(cp.Figures, &painter.TFigure{X: args[0], Y: args[1]})
+}
+
+func (cp *Parser) addMovement(args []int) {
+	cp.Movements = append(cp.Movements, &painter.MoveFigures{X: args[0], Y: args[1], Figures: cp.Figures})
+}
+
+func (cp *Parser) setUpdate(op painter.Operation) {
+	cp.Update = op
 }
