@@ -145,11 +145,11 @@ func (pw *Visualizer) drawDefaultUI() {
 
 	firstRectangle := image.Rectangle{
 		Min: image.Point{
-			X: pw.pos.X - 200,
-			Y: pw.pos.Y - 200,
+			X: pw.pos.X - 120,
+			Y: pw.pos.Y - 150,
 		},
 		Max: image.Point{
-			X: pw.pos.X + 200,
+			X: pw.pos.X + 120,
 			Y: pw.pos.Y - 100,
 		},
 	}
@@ -158,12 +158,12 @@ func (pw *Visualizer) drawDefaultUI() {
 
 	secondRectangle := image.Rectangle{
 		Min: image.Point{
-			X: pw.pos.X - 50,
+			X: pw.pos.X - 30,
 			Y: pw.pos.Y - 100,
 		},
 		Max: image.Point{
-			X: pw.pos.X + 50,
-			Y: pw.pos.Y + 200,
+			X: pw.pos.X + 30,
+			Y: pw.pos.Y + 100,
 		},
 	}
 	secondRectangleColor := color.RGBA{B: 255}

@@ -74,8 +74,8 @@ func (op *BgRect) Do(texture screen.Texture) bool {
 
 func (op *TFigure) Do(texture screen.Texture) bool {
 	blueColor := color.RGBA{B: 255}
-	texture.Fill(image.Rect(op.X-100, op.Y-100, op.X+100, op.Y-50), blueColor, draw.Src)
-	texture.Fill(image.Rect(op.X-25, op.Y-50, op.X+25, op.Y+100), blueColor, draw.Src)
+	texture.Fill(image.Rect(op.X-60, op.Y-75, op.X+60, op.Y-50), blueColor, draw.Src)
+	texture.Fill(image.Rect(op.X-15, op.Y-50, op.X+15, op.Y+50), blueColor, draw.Src)
 	return false
 }
 
