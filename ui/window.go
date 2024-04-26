@@ -26,14 +26,14 @@ type Visualizer struct {
 	done chan struct{}
 
 	sz  size.Event
-	pos image.Rectangle
+	pos image.Point
 }
 
 func (pw *Visualizer) Main() {
 	pw.tx = make(chan screen.Texture)
 	pw.done = make(chan struct{})
-	pw.pos.Max.X = 400
-	pw.pos.Max.Y = 400
+	pw.pos.X = 400
+	pw.pos.Y = 400
 	driver.Main(pw.run)
 }
 
@@ -123,8 +123,8 @@ func (pw *Visualizer) handleEvent(e any, t screen.Texture) {
 			break
 		}
 		if t == nil {
-			pw.pos.Max.X = int(e.X)
-			pw.pos.Max.Y = int(e.Y)
+			pw.pos.X = int(e.X)
+			pw.pos.Y = int(e.Y)
 			pw.w.Send(paint.Event{})
 		}
 
@@ -145,12 +145,12 @@ func (pw *Visualizer) drawDefaultUI() {
 
 	firstRectangle := image.Rectangle{
 		Min: image.Point{
-			X: pw.pos.Max.X - 200,
-			Y: pw.pos.Max.Y - 200,
+			X: pw.pos.X - 120,
+			Y: pw.pos.Y - 150,
 		},
 		Max: image.Point{
-			X: pw.pos.Max.X + 200,
-			Y: pw.pos.Max.Y - 100,
+			X: pw.pos.X + 120,
+			Y: pw.pos.Y - 100,
 		},
 	}
 	firstRectangleColor := color.RGBA{B: 255}
@@ -158,12 +158,12 @@ func (pw *Visualizer) drawDefaultUI() {
 
 	secondRectangle := image.Rectangle{
 		Min: image.Point{
-			X: pw.pos.Max.X - 50,
-			Y: pw.pos.Max.Y - 100,
+			X: pw.pos.X - 30,
+			Y: pw.pos.Y - 100,
 		},
 		Max: image.Point{
-			X: pw.pos.Max.X + 50,
-			Y: pw.pos.Max.Y + 200,
+			X: pw.pos.X + 30,
+			Y: pw.pos.Y + 100,
 		},
 	}
 	secondRectangleColor := color.RGBA{B: 255}
