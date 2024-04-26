@@ -10,8 +10,7 @@ import (
 	"github.com/roman-mazur/architecture-lab-3/painter"
 )
 
-// Parser уміє прочитати дані з вхідного io.Reader та повернути список операцій представлені вхідним скриптом.
-const ScreenSize = 800
+// Parser уміє прочитати дані з вхідного io.Reader та повернути список операцій представлені вхідним скриптом
 
 type Parser struct {
 	Background painter.Operation
@@ -42,7 +41,7 @@ func (cp *Parser) parseLine(line string) error {
 	}
 
 	command := tokens[0]
-	args, err := convertToIntArgs(tokens, ScreenSize)
+	args, err := convertToIntArgs(tokens, 400)
 	if err != nil {
 		return fmt.Errorf("invalid argument format for %s: %s", command, line)
 	}
