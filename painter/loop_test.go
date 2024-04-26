@@ -38,8 +38,6 @@ func TestLoop_Post(t *testing.T) {
 		testOps = append(testOps, "op 3")
 	}))
 
-	l.StopAndWait()
-
 	if tr.lastTexture == nil {
 		t.Fatal("Texture was not updated")
 	}
